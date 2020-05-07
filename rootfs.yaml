@@ -1,0 +1,44 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $username := or .username "debian" -}}
+{{- $password := or .password "1234" -}}
+{{- $hostname := or .hostname "mobian" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: debootstrap
+    suite: bullseye
+    components:
+      - main
+      - contrib
+      - non-free
+    mirror: http://deb.debian.org/debian
+    variant: minbase
+
+  - action: overlay
+    source: overlays/rootfs
+
+  - action: apt
+    recommends: false
+    description: Install mobian-specific packages
+    packages:
+      - mobian-phosh
+      - mobian-phosh-games
+      - epiphany-browser
+      - firefox-esr
+      - fractal
+      - powersupply
+      - telegram-desktop
+
+  - action: run
+    description: Set up default user
+    chroot: true
+    script: scripts/setup-user.sh {{ $username }} {{ $password }}
+
+  - action: run
+    description: Set up system
+    chroot: true
+    script: scripts/setup-system.sh {{ $hostname }}
+
+  - action: pack
+    file: rootfs-{{ $architecture }}.tar.gz

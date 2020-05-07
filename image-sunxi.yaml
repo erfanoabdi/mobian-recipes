@@ -1,0 +1,59 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $device := or .device "pinephone" }}
+{{- $image := or .image "mobian-$device.img" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $architecture }}.tar.gz
+
+  - action: apt
+    recommends: false
+    description: Install device-specific packages
+    packages:
+      - {{ $device }}-support
+
+  - action: image-partition
+    imagename: {{ $image }}
+    imagesize: 3.8GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: rootfs
+    partitions:
+      - name: rootfs
+        fs: ext4
+        start: 1MB
+        end: 100%
+        flags: [ boot ]
+
+  - action: filesystem-deploy
+    description: Deploy filesystem onto image
+
+  - action: apt
+    recommends: false
+    description: Install kernel
+    packages:
+      - linux-image-5.6-{{ $device }}
+
+  - action: run
+    description: Create bootloader
+    chroot: true
+    script: scripts/bootloader-sunxi.sh {{ $device }}
+
+  - action: raw
+    description: Install bootloader
+    origin: filesystem
+    source: boot/u-boot-sunxi-with-spl.bin
+    offset: 8192
+
+  - action: run
+    description: Cleanup filesystem
+    chroot: true
+    script: scripts/cleanup.sh
+
+  - action: run
+    description: Create block map file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
