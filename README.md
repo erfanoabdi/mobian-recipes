@@ -5,7 +5,7 @@ debian-based image for mobile phones, initially targetting Pine64's PinePhone.
 
 Prebuilt images are available [here](http://images.mobian-project.org/).
 
-The default user is `debian` with password `1234`.
+The default user is `mobian` with password `1234`.
 The default `root` password is `root`.
 
 ## Build
