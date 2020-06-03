@@ -43,7 +43,7 @@ esac
 if [ "$use_docker" ]; then
   DEBOS_CMD=docker
   ARGS="run --rm --interactive --tty --device /dev/kvm --workdir /recipes \
-            --mount \"type=bind,source=$(pwd),destination=/recipes\" \
+            --mount type=bind,source=$(pwd),destination=/recipes \
             --security-opt label=disable godebos/debos"
 fi
 if [ "$username" ]; then
