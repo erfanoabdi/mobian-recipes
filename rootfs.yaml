@@ -24,9 +24,12 @@ actions:
     packages:
       - mobian-phosh
       - mobian-phosh-games
+      - eog
       - epiphany-browser
       - firefox-esr
       - fractal
+      - gnome-sound-recorder
+      - gnome-todo
       - powersupply
       - telegram-desktop
 
