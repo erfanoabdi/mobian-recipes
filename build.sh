@@ -35,6 +35,14 @@ case "$device" in
     arch="arm64"
     image_recipe="image-sunxi"
     ;;
+  "amd64" )
+    arch="amd64"
+    image_recipe="image-amd64"
+    ;;
+  "amd64-legacy" )
+    arch="amd64"
+    image_recipe="image-amd64-legacy"
+    ;;
   * )
     usage
     ;;

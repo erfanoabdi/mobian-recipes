@@ -1,0 +1,60 @@
+{{- $architecture := or .architecture "x86_64" -}}
+{{- $device := or .device "amd64" }}
+{{- $image := or .image "mobian-$device.img" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $architecture }}.tar.gz
+
+  - action: image-partition
+    imagename: {{ $image }}
+    imagesize: 3.8GB
+    partitiontype: gpt
+    mountpoints:
+      - mountpoint: /
+        partition: rootfs
+      - mountpoint: /boot/efi
+        partition: esp
+    partitions:
+      - name: rootfs
+        fs: ext4
+        start: 65MB
+        end: 100%
+        flags: [ boot ]
+      - name: esp
+        fs: fat32
+        start: 0%
+        end: 64M
+        flags: [ esp ]
+
+  - action: filesystem-deploy
+    description: Deploy filesystem onto image
+
+  - action: apt
+    recommends: false
+    description: Install kernel
+    packages:
+      - linux-image-amd64
+      - grub-efi
+
+  - action: run
+    description: Refresh /boot/grub/grub.cfg
+    command: update-grub
+    chroot: true
+
+  - action: run
+    description: Install grub to the MBR
+    command: grub-install --target=x86_64-efi --efi-directory=/boot/efi
+    chroot: true
+
+  - action: run
+    description: Fix devicenames in grub.cfg
+    command: sed -i 's/vda/sda/g' /boot/grub/grub.cfg
+    chroot: true
+
+  - action: run
+    description: Cleanup filesystem
+    chroot: true
+    script: scripts/cleanup.sh
