@@ -21,12 +21,18 @@ actions:
     mountpoints:
       - mountpoint: /
         partition: rootfs
+      - mountpoint: /boot
+        partition: boot
     partitions:
-      - name: rootfs
+      - name: boot
         fs: ext4
         start: 1MB
-        end: 100%
+        end: 128MB
         flags: [ boot ]
+      - name: rootfs
+        fs: ext4
+        start: 128MB
+        end: 100%
 
   - action: filesystem-deploy
     description: Deploy filesystem onto image
