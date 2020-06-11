@@ -28,6 +28,7 @@ actions:
       - epiphany-browser
       - firefox-esr
       - fractal
+      - gnome-authenticator
       - gnome-sound-recorder
       - gnome-todo
       - powersupply
