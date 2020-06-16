@@ -15,8 +15,21 @@ actions:
     mirror: http://deb.debian.org/debian
     variant: minbase
 
+  - action: apt
+    recommends: false
+    description: Install security packages
+    packages:
+      - ca-certificates
+      - gnupg
+      - wget
+
   - action: overlay
     source: overlays/rootfs
+
+  - action: run
+    description: Setup Mobian repository
+    chroot: true
+    command: wget -O - https://repo.mobian-project.org/mobian.gpg.key | apt-key add -
 
   - action: apt
     recommends: false
