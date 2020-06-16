@@ -17,19 +17,14 @@ actions:
 
   - action: apt
     recommends: false
-    description: Install security packages
+    description: Install extrepo
     packages:
-      - ca-certificates
-      - gnupg
-      - wget
-
-  - action: overlay
-    source: overlays/rootfs
+      - extrepo
 
   - action: run
     description: Setup Mobian repository
     chroot: true
-    command: wget -O - https://repo.mobian-project.org/mobian.gpg.key | apt-key add -
+    script: scripts/setup-repo.sh
 
   - action: apt
     recommends: false
