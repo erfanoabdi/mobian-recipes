@@ -10,8 +10,6 @@ actions:
     suite: bullseye
     components:
       - main
-      - contrib
-      - non-free
     mirror: http://deb.debian.org/debian
     variant: minbase
 
