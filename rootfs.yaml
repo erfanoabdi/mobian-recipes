@@ -33,6 +33,7 @@ actions:
       - gnome-todo
       - powersupply
       - telegram-desktop
+      - webext-ublock-origin
 
   - action: run
     description: Set up default user
