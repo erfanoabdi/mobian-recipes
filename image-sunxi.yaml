@@ -8,12 +8,6 @@ actions:
   - action: unpack
     file: rootfs-{{ $architecture }}.tar.gz
 
-  - action: apt
-    recommends: false
-    description: Install device-specific packages
-    packages:
-      - {{ $device }}-support
-
   - action: image-partition
     imagename: {{ $image }}
     imagesize: 3.8GB
@@ -39,9 +33,9 @@ actions:
 
   - action: apt
     recommends: false
-    description: Install kernel
+    description: Install device-specific packages
     packages:
-      - linux-image-5.6-{{ $device }}
+      - {{ $device }}-support
 
   - action: run
     description: Create bootloader
