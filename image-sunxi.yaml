@@ -36,6 +36,7 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
+      - flashlight
 
   - action: run
     description: Create bootloader
