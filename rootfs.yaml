@@ -35,6 +35,7 @@ actions:
       - firefox-esr
       - fractal
       - gnome-authenticator
+      - gnome-camera
       - gnome-sound-recorder
       - gnome-todo
       - powersupply
