@@ -8,6 +8,14 @@ actions:
   - action: unpack
     file: rootfs-{{ $architecture }}.tar.gz
 
+{{ if eq $device "pinephone" }}
+  - action: apt
+    recommends: false
+    description: Install telephony packages
+    packages:
+      - mobian-phosh-phone
+{{ end }}
+
   - action: image-partition
     imagename: {{ $image }}
     imagesize: 3.8GB
