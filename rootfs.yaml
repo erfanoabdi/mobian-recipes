@@ -33,6 +33,7 @@ actions:
       - eog
       - epiphany-browser
       - firefox-esr
+      - flashlight
       - fractal
       - gnome-authenticator
       - gnome-camera
