@@ -36,9 +36,9 @@ actions:
       - flashlight
       - fractal
       - gnome-authenticator
-      - gnome-camera
       - gnome-sound-recorder
       - gnome-todo
+      - pinhole
       - powersupply
       - telegram-desktop
       - webext-ublock-origin
