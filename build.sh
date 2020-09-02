@@ -35,6 +35,10 @@ case "$device" in
     arch="arm64"
     image_recipe="image-sunxi"
     ;;
+  "pinetab" )
+    arch="arm64"
+    image_recipe="image-sunxi"
+    ;;
   "amd64" )
     arch="amd64"
     image_recipe="image-amd64"
@@ -74,7 +78,7 @@ if [ "$memory" ]; then
   ARGS="$ARGS --memory $memory"
 fi
 
-ARGS="$ARGS -t architecture:$arch --scratchsize=8G"
+ARGS="$ARGS -t architecture:$arch -t device:$device --scratchsize=8G"
 
 if [ ! "$image_only" ]; then
   $DEBOS_CMD $ARGS rootfs.yaml || exit 1
