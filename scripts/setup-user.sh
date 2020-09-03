@@ -18,4 +18,3 @@ adduser $USERNAME input
 adduser $USERNAME dialout
 
 echo "$USERNAME:$PASSWORD" | chpasswd
-echo "root:root" | chpasswd
