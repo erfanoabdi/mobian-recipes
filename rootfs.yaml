@@ -38,7 +38,7 @@ actions:
       - gnome-authenticator
       - gnome-sound-recorder
       - gnome-todo
-      - pinhole
+      - megapixels
       - powersupply
       - telegram-desktop
       - webext-ublock-origin
