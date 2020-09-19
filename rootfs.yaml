@@ -30,18 +30,35 @@ actions:
     packages:
       - mobian-phosh
       - mobian-phosh-games
+      # Additional software we don't want metapackages to depend on
       - eog
       - epiphany-browser
+      - evince
+      - file-roller
       - firefox-esr
       - flashlight
       - fractal
+      - geary
+      - gedit
       - gnome-authenticator
+      - gnome-calculator
+      - gnome-calendar
+      - gnome-contacts
+      - gnome-clocks
+      - gnome-maps
       - gnome-sound-recorder
       - gnome-todo
+      - gnome-usage
+      - kgx
+      - lollypop
       - megapixels
+      - nemo
+      - nemo-fileroller
       - powersupply
       - telegram-desktop
+      - telegram-purple
       - webext-ublock-origin
+      - youtube-dl
 
   - action: run
     description: Set up default user
