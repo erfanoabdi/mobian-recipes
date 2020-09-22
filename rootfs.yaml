@@ -49,6 +49,7 @@ actions:
       - gnome-sound-recorder
       - gnome-todo
       - gnome-usage
+      - gnome-weather
       - kgx
       - lollypop
       - megapixels
