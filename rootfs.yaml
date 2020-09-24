@@ -46,6 +46,8 @@ actions:
       - gnome-contacts
       - gnome-clocks
       - gnome-maps
+      - gnome-software
+      - gnome-software-plugin-flatpak
       - gnome-sound-recorder
       - gnome-todo
       - gnome-usage
