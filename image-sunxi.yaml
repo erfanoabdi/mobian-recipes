@@ -16,11 +16,6 @@ actions:
       - mobian-phosh-phone
 {{ end }}
 
-  - action: run
-    description: Add device-specific tweaks
-    chroot: true
-    script: scripts/setup-sunxi.sh {{ $device }}
-
   - action: image-partition
     imagename: {{ $image }}
     imagesize: 3.8GB
