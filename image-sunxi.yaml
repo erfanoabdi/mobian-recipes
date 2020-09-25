@@ -60,8 +60,3 @@ actions:
     description: Cleanup filesystem
     chroot: true
     script: scripts/cleanup.sh
-
-  - action: run
-    description: Create block map file
-    postprocess: true
-    command: bmaptool create {{ $image }} > {{ $image }}.bmap

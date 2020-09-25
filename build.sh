@@ -12,13 +12,15 @@ memory=
 password=
 use_docker=
 username=
+no_blockmap=
 
-while getopts "dizf:h:m:p:t:u:" opt
+while getopts "dizbf:h:m:p:t:u:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
     i ) image_only=1 ;;
     z ) do_compress=1 ;;
+    b ) no_blockmap=1 ;;
     f ) ftp_proxy="$OPTARG" ;;
     h ) http_proxy="$OPTARG" ;;
     m ) memory="$OPTARG" ;;
@@ -85,6 +87,10 @@ if [ ! "$image_only" ]; then
 fi
 
 $DEBOS_CMD $ARGS -t image:$IMG_FILE $image_recipe.yaml
+
+if [ ! "$no_blockmap" ]; then
+  bmaptool create "$IMG_FILE" > "$IMG_FILE.bmap"
+fi
 
 if [ "$do_compress" ]; then
   echo "Compressing $IMG_FILE..."
