@@ -1,0 +1,5 @@
+# Prefer hybris-mobian's packages over mobian's and debian's,
+# even if they're older.
+Package: *
+Pin: release o=hybris-mobian
+Pin-Priority: 900

@@ -1,0 +1,66 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $device := or .device "android9-generic" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: overlay
+    source: overlays/apt
+    description: Adding hybris-mobian apt overlay
+    destination: /
+
+  - action: overlay # tmp
+    source: overlays/apt-staging
+    description: Adding hybris-mobian staging apt overlay
+    destination: /
+
+  - action: overlay # tmp
+    source: overlays/phoc-staging
+    description: Adding hybris-mobian phoc-staging repo
+    destination: /
+
+  - action: overlay # tmp
+    source: overlays/phosh-staging
+    description: Adding hybris-mobian phosh-staging repo
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Update and upgrade apt
+    command: apt update && apt upgrade -y --allow-downgrades
+
+  - action: apt
+    chroot: true
+    description: install packages
+    packages:
+      - hybris-mobian-minimal
+      - adaptation-hybris-api28
+      - adaptation-hybris-api28-phone-dual-sim
+      - hybris-usb
+      - hybris-mobian-phone
+      - mobian-phosh-phone
+      - firefox-esr-mobile-config
+      - megapixels
+      - powersupply
+
+  - action: run
+    chroot: true
+    description: Create directories for Android mounts
+    command: mkdir -p /android /userdata && ln -s /android/data /data && ln -s /android/system /system && ln -s /android/vendor /vendor && ln -s /android/cache /cache && ln -s /android/persist /persist
+
+  - action: overlay
+    source: overlays/common
+    description: Adding hybris overlay
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Disable mobian MTP
+    command: systemctl mask umtp-responder
+
+{{ if eq $device "android9-generic" }}
+  - action: run
+    chroot: true
+    description: Create directories for Android 9 mounts
+    command: mkdir -p /mnt/vendor/persist /mnt/vendor/efs && ln -s /android/product /product && ln -s /android/metadata /metadata && ln -s /android/efs /efs
+{{ end }}
