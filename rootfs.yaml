@@ -58,7 +58,6 @@ actions:
       - megapixels
       - nemo
       - nemo-fileroller
-      - powersupply
       - telegram-desktop
       - telegram-purple
       - webext-ublock-origin

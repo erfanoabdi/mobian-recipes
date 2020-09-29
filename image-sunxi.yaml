@@ -44,6 +44,7 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
+      - powersupply
 
   - action: run
     description: Create bootloader
