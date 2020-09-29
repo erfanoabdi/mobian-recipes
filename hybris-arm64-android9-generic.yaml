@@ -1,0 +1,14 @@
+{{- $architecture := or .architecture "arm64" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: overlay
+    source: overlays/android9
+    description: Adding Android 9 base specific overlay
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Create directories for Android mounts
+    command: mkdir -p /mnt/vendor/persist /mnt/vendor/efs && ln -s /android/product /product && ln -s /android/metadata /metadata && ln -s /android/efs /efs

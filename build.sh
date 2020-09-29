@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export PATH=/sbin:/usr/sbin:$PATH
 DEBOS_CMD=debos
@@ -31,6 +31,7 @@ do
 done
 
 IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
+TAR_FILE="rootfs-mobian-$device-`date +%Y%m%d`.tar.gz"
 
 case "$device" in
   "pinephone" )
@@ -48,6 +49,14 @@ case "$device" in
   "amd64-legacy" )
     arch="amd64"
     image_recipe="image-amd64-legacy"
+    ;;
+  "arm64-android9-generic" )
+    arch="arm64"
+    image_recipe="rootfs-hybris"
+    ;;
+  "armhf-android9-generic" )
+    arch="armhf"
+    image_recipe="rootfs-hybris"
     ;;
   * )
     usage
@@ -84,6 +93,11 @@ ARGS="$ARGS -t architecture:$arch -t device:$device --scratchsize=8G"
 
 if [ ! "$image_only" ]; then
   $DEBOS_CMD $ARGS rootfs.yaml || exit 1
+fi
+
+if [ "$(echo $image_recipe | cut -f 1 -d '-')" == "rootfs" ]; then
+  $DEBOS_CMD $ARGS -t rootfs:$TAR_FILE $image_recipe.yaml
+  exit 0
 fi
 
 $DEBOS_CMD $ARGS -t image:$IMG_FILE $image_recipe.yaml

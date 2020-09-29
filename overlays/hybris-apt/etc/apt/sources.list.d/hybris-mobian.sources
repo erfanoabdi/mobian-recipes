@@ -1,0 +1,6 @@
+Architectures: arm64
+Components: main
+Suites: halium9
+Uris: https://repo.hybris-mobian.org/debian/public
+Types: deb
+Signed-By: /var/lib/extrepo/keys/hybris-mobian.asc

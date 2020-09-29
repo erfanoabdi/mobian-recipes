@@ -1,0 +1,3 @@
+Package: *
+Pin: origin repo.hybris-mobian.org
+Pin-Priority: 800

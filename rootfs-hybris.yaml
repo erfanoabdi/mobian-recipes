@@ -1,0 +1,70 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $device := or .device "arm64-android9-generic" }}
+{{- $rootfs := or .rootfs "mobian-$device.tar.gz" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $architecture }}.tar.gz
+
+  - action: overlay
+    source: overlays/hybris-apt
+    description: Adding hybris-mobian apt repos
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Update and upgrade apt
+    command: apt update && apt upgrade -y --allow-downgrades
+
+  - action: apt
+    chroot: true
+    description: install packages
+    packages:
+      - mobian-phosh-phone
+      - lxc-android
+      - udev
+      - openssh-server
+      - strace
+      - net-tools
+      - wlr-randr
+      - libhybris
+      - libhybris-test
+      - hybris-usb
+      - ofono
+      - ofono-scripts
+      - ofono-ril-binder-plugin
+      - pulseaudio-module-droid
+      - bluebinder
+
+  - action: run
+    chroot: true
+    description: Create directories for Android mounts
+    command: mkdir -p /android /userdata && ln -s /android/data /data && ln -s /android/system /system && ln -s /android/vendor /vendor && ln -s /android/cache /cache && ln -s /android/persist /persist
+
+  - action: overlay
+    source: overlays/hybris
+    description: Adding hybris overlay
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Disable mobian MTP and fwupd
+    script: scripts/hybris-disable-services.sh
+
+  - action: recipe
+    description: Runing device build recipe
+    recipe: hybris-{{ $device }}.yaml
+    variables:
+      architecture: {{ $architecture }}
+
+  - action: run
+    description: Cleanup filesystem
+    chroot: true
+    script: scripts/cleanup.sh
+
+  - action: pack
+    description: Compressing rootfs image
+    file: {{ $rootfs }}
+    compression: gz
