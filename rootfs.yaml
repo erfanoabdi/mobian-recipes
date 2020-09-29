@@ -36,6 +36,7 @@ actions:
       - evince
       - file-roller
       - firefox-esr
+      - firefox-esr-mobile-config
       - flashlight
       - fractal
       - geary
