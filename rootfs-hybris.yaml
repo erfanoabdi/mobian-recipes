@@ -41,7 +41,7 @@ actions:
   - action: run
     chroot: true
     description: Create directories for Android mounts
-    command: mkdir -p /android /userdata && ln -s /android/data /data && ln -s /android/system /system && ln -s /android/vendor /vendor && ln -s /android/cache /cache && ln -s /android/persist /persist
+    command: mkdir -p /android /userdata /var/lib/lxc/android/rootfs && ln -s /android/data /data && ln -s /android/system /system && ln -s /android/vendor /vendor && ln -s /android/cache /cache && ln -s /android/persist /persist
 
   - action: overlay
     source: overlays/hybris
