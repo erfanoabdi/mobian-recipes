@@ -53,6 +53,11 @@ actions:
     description: Disable mobian MTP and fwupd
     script: scripts/hybris-disable-services.sh
 
+  - action: run
+    chroot: true
+    description: Enabling SSH
+    command: ssh-keygen -A && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+
   - action: recipe
     description: Runing device build recipe
     recipe: hybris-{{ $device }}.yaml
