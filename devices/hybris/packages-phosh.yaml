@@ -64,3 +64,8 @@ actions:
     description: Create directories for Android 9 mounts
     command: mkdir -p /mnt/vendor/persist /mnt/vendor/efs && ln -s /android/product /product && ln -s /android/metadata /metadata && ln -s /android/efs /efs
 {{ end }}
+
+  - action: run
+    chroot: true
+    description: Enabling android lxc
+    command: systemctl enable lxc@android
