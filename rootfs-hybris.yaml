@@ -43,6 +43,11 @@ actions:
     description: Create directories for Android mounts
     command: mkdir -p /android /userdata /var/lib/lxc/android/rootfs && ln -s /android/data /data && ln -s /android/system /system && ln -s /android/vendor /vendor && ln -s /android/cache /cache && ln -s /android/persist /persist
 
+  - action: run
+    chroot: true
+    description: Enabling android lxc
+    command: systemctl enable lxc@android
+
   - action: overlay
     source: overlays/hybris
     description: Adding hybris overlay
