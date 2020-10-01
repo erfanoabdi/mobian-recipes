@@ -31,6 +31,7 @@ actions:
       - wlr-randr
       - libhybris
       - libhybris-test
+      - libhybris-utils
       - hybris-usb
       - ofono
       - ofono-scripts
