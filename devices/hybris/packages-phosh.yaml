@@ -42,6 +42,7 @@ actions:
       - firefox-esr-mobile-config
       - megapixels
       - powersupply
+      - libhybris-utils
 
   - action: run
     chroot: true
