@@ -12,8 +12,13 @@ actions:
     recommends: false
     description: Install telephony packages
     packages:
-      - mobian-phosh-phone
+      - chatty
+      - gnome-calls
+      - modemmanager
+      - mobile-broadband-provider-info
       - openssh-server
+      - purple-mm-sms
+      - wys
 
   - action: image-partition
     imagename: {{ $image }}
