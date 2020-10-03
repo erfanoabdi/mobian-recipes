@@ -41,6 +41,10 @@ case "$device" in
     arch="arm64"
     image_recipe="image-sunxi"
     ;;
+  "librem5" )
+    arch="arm64"
+    image_recipe="image-librem5"
+    ;;
   "amd64" )
     arch="amd64"
     image_recipe="image-amd64"
