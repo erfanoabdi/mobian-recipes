@@ -13,10 +13,10 @@ actions:
     description: Install telephony packages
     packages:
       - chatty
+      - firefox-esr-mobile-config
       - gnome-calls
       - modemmanager
       - mobile-broadband-provider-info
-      - openssh-server
       - purple-mm-sms
       - wys
 
