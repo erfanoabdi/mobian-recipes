@@ -14,6 +14,8 @@ actions:
     description: Install telephony packages
     packages:
       - mobian-phosh-phone
+      - firefox-esr-mobile-config
+      - flashlight
 {{ end }}
 
   - action: image-partition
@@ -44,6 +46,7 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
+      - megapixels
       - powersupply
 
   - action: run

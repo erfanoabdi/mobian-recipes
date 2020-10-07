@@ -36,8 +36,6 @@ actions:
       - evince
       - file-roller
       - firefox-esr
-      - firefox-esr-mobile-config
-      - flashlight
       - fractal
       - geary
       - gedit
@@ -55,7 +53,6 @@ actions:
       - gnome-weather
       - kgx
       - lollypop
-      - megapixels
       - nemo
       - nemo-fileroller
       - telegram-desktop
