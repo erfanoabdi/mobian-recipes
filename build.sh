@@ -16,14 +16,16 @@ password=
 use_docker=
 username=
 no_blockmap=
+ssh=
 
-while getopts "dizobf:h:m:p:t:u:" opt
+while getopts "dizobsf:h:m:p:t:u:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
     i ) image_only=1 ;;
     z ) do_compress=1 ;;
     b ) no_blockmap=1 ;;
+    s ) ssh=1 ;;
     o ) installer=1 ;;
     f ) ftp_proxy="$OPTARG" ;;
     h ) http_proxy="$OPTARG" ;;
@@ -82,6 +84,10 @@ fi
 
 if [ "$password" ]; then
   ARGS="$ARGS -t password:$password"
+fi
+
+if [ "$ssh" ]; then
+  ARGS="$ARGS -t ssh:$ssh"
 fi
 
 if [ "$http_proxy" ]; then
