@@ -59,6 +59,8 @@ actions:
       - telegram-purple
       - webext-ublock-origin
       - youtube-dl
+      - cryptsetup
+      - cryptsetup-initramfs
 
   - action: run
     description: Set up default user

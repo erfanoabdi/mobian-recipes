@@ -6,21 +6,11 @@ architecture: {{ $architecture }}
 
 actions:
   - action: unpack
-    file: rootfs-{{ $device }}.tar.gz
-
-{{ if eq $device "pinephone" }}
-  - action: apt
-    recommends: false
-    description: Install telephony packages
-    packages:
-      - mobian-phosh-phone
-      - firefox-esr-mobile-config
-      - flashlight
-{{ end }}
+    file: installfs-{{ $architecture }}.tar.gz
 
   - action: image-partition
     imagename: {{ $image }}
-    imagesize: 3.8GB
+    imagesize: 7.8GB
     partitiontype: msdos
     mountpoints:
       - mountpoint: /
@@ -35,7 +25,7 @@ actions:
         flags: [ boot ]
       - name: rootfs
         fs: ext4
-        start: 128MB
+        start: 2.5G
         end: 100%
 
   - action: filesystem-deploy
@@ -46,7 +36,6 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
-      - megapixels
       - powersupply
 
   - action: run

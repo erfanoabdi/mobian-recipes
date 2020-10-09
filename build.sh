@@ -6,21 +6,25 @@ ARGS=
 arch=
 device="pinephone"
 do_compress=
+family=
 image_only=
 image_recipe=
+image=
+installer=
 memory=
 password=
 use_docker=
 username=
 no_blockmap=
 
-while getopts "dizbf:h:m:p:t:u:" opt
+while getopts "dizobf:h:m:p:t:u:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
     i ) image_only=1 ;;
     z ) do_compress=1 ;;
     b ) no_blockmap=1 ;;
+    o ) installer=1 ;;
     f ) ftp_proxy="$OPTARG" ;;
     h ) http_proxy="$OPTARG" ;;
     m ) memory="$OPTARG" ;;
@@ -30,16 +34,21 @@ do
   esac
 done
 
-IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
+
+if [ "$installer" ]; then
+  image="installer"
+else
+  image="image"
+fi
 
 case "$device" in
   "pinephone" )
     arch="arm64"
-    image_recipe="image-sunxi"
+    family="sunxi"
     ;;
   "pinetab" )
     arch="arm64"
-    image_recipe="image-sunxi"
+    family="sunxi"
     ;;
   "librem5" )
     arch="arm64"
@@ -47,16 +56,19 @@ case "$device" in
     ;;
   "amd64" )
     arch="amd64"
-    image_recipe="image-amd64"
+    family="amd64"
     ;;
   "amd64-legacy" )
     arch="amd64"
-    image_recipe="image-amd64-legacy"
+    family="amd64-legacy"
     ;;
   * )
     usage
     ;;
 esac
+image_recipe="$image-$family"
+IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
+ROOT_IMG_FILE="rootfs-$arch.tar.gz"
 
 if [ "$use_docker" ]; then
   DEBOS_CMD=docker
@@ -88,6 +100,12 @@ ARGS="$ARGS -t architecture:$arch -t device:$device --scratchsize=8G"
 
 if [ ! "$image_only" ]; then
   $DEBOS_CMD $ARGS rootfs.yaml || exit 1
+  if [ -f "rootfs-$family.yaml" ]; then
+    $DEBOS_CMD $ARGS "rootfs-$family.yaml" || exit 1
+  fi
+  if [ "$installer" ]; then
+    $DEBOS_CMD $ARGS -t image:$ROOT_IMG_FILE installfs.yaml || exit 1
+  fi
 fi
 
 $DEBOS_CMD $ARGS -t image:$IMG_FILE $image_recipe.yaml

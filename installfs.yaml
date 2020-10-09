@@ -1,0 +1,49 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $username := or .username "mobian" -}}
+{{- $password := or .password "1234" -}}
+{{- $hostname := or .hostname "mobian" -}}
+{{- $image := or .image "rootfs-$device.tar.gz" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: debootstrap
+    suite: bullseye
+    components:
+      - main
+    mirror: http://deb.debian.org/debian
+    variant: minbase
+
+  - action: apt
+    recommends: false
+    description: Install extrepo
+    packages:
+      - extrepo
+
+  - action: run
+    description: Setup Mobian repository
+    chroot: true
+    script: scripts/setup-repo.sh
+
+  - action: apt
+    recommends: false
+    description: Install installer packages
+    packages:
+      - cryptsetup
+      - calamares
+      - mobian-installer
+      - u-boot-tools
+      - device-tree-compiler
+      - initramfs-tools
+
+  - action: run
+    description: setup ondevice installer to start on boot
+    chroot: true
+    command: systemctl enable calamaresfb.service
+
+  - action: overlay
+    source: {{ $image }}
+    destination: /var/lib/rootfs.tar.gz
+
+  - action: pack
+    file: installfs-{{ $architecture }}.tar.gz
