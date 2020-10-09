@@ -54,7 +54,7 @@ case "$device" in
     ;;
   "librem5" )
     arch="arm64"
-    image_recipe="image-librem5"
+    family="librem5"
     ;;
   "amd64" )
     arch="amd64"
