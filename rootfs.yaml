@@ -2,6 +2,7 @@
 {{- $username := or .username "mobian" -}}
 {{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "mobian" -}}
+{{- $ssh := or .ssh "" -}}
 
 architecture: {{ $architecture }}
 
@@ -59,6 +60,9 @@ actions:
       - telegram-purple
       - webext-ublock-origin
       - youtube-dl
+{{ if $ssh }}
+      - openssh-server
+{{ end }}
       - cryptsetup
       - cryptsetup-initramfs
 
@@ -66,6 +70,23 @@ actions:
     description: Set up default user
     chroot: true
     script: scripts/setup-user.sh {{ $username }} {{ $password }}
+
+{{ if $ssh }}
+  - action: overlay
+    description: Set up sshd configuration
+    source: overlays/sshd_config.d/
+    destination: /etc/ssh/sshd_config.d/
+
+  - action: overlay
+    description: Set up user's ssh configuration
+    source: overlays/ssh/
+    destination: /home/{{ $username }}/.ssh/
+
+  - action: run
+    description: Set owner of .ssh
+    chroot: true
+    command: chown -R {{ $username }}:{{ $username }} /home/{{ $username }}/.ssh/
+{{ end }}
 
   - action: run
     description: Set up system
