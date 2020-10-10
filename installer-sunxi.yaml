@@ -1,12 +1,17 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $device := or .device "pinephone" }}
-{{- $image := or .image "mobian-$device.img" -}}
+{{- $rootfs := or .rootfs "rootfs-$device.tar.gz" -}}
+{{- $image := or .image "mobian-installer-$device.img" -}}
 
 architecture: {{ $architecture }}
 
 actions:
   - action: unpack
     file: installfs-{{ $architecture }}.tar.gz
+
+  - action: overlay
+    source: {{ $rootfs }}
+    destination: /var/lib/rootfs.tar.gz
 
   - action: image-partition
     imagename: {{ $image }}
@@ -36,7 +41,6 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
-      - powersupply
 
   - action: run
     description: Create bootloader
