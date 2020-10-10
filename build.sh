@@ -9,7 +9,7 @@ do_compress=
 family=
 image_only=
 image_recipe=
-image=
+image="image"
 installer=
 memory=
 password=
@@ -36,11 +36,10 @@ do
   esac
 done
 
-
+IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
 if [ "$installer" ]; then
   image="installer"
-else
-  image="image"
+  IMG_FILE="mobian-installer-$device-`date +%Y%m%d`.img"
 fi
 
 case "$device" in
@@ -69,7 +68,6 @@ case "$device" in
     ;;
 esac
 image_recipe="$image-$family"
-IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
 ROOT_IMG_FILE="rootfs-$arch.tar.gz"
 
 if [ "$use_docker" ]; then
@@ -110,11 +108,11 @@ if [ ! "$image_only" ]; then
     $DEBOS_CMD $ARGS "rootfs-$family.yaml" || exit 1
   fi
   if [ "$installer" ]; then
-    $DEBOS_CMD $ARGS -t image:$ROOT_IMG_FILE installfs.yaml || exit 1
+    $DEBOS_CMD $ARGS installfs.yaml || exit 1
   fi
 fi
 
-$DEBOS_CMD $ARGS -t image:$IMG_FILE $image_recipe.yaml
+$DEBOS_CMD $ARGS -t "image:$IMG_FILE" "$image_recipe.yaml"
 
 if [ ! "$no_blockmap" ]; then
   bmaptool create "$IMG_FILE" > "$IMG_FILE.bmap"
