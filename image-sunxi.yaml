@@ -8,16 +8,6 @@ actions:
   - action: unpack
     file: rootfs-{{ $device }}.tar.gz
 
-{{ if eq $device "pinephone" }}
-  - action: apt
-    recommends: false
-    description: Install telephony packages
-    packages:
-      - mobian-phosh-phone
-      - firefox-esr-mobile-config
-      - flashlight
-{{ end }}
-
   - action: image-partition
     imagename: {{ $image }}
     imagesize: 3.8GB
@@ -41,20 +31,11 @@ actions:
   - action: filesystem-deploy
     description: Deploy filesystem onto image
 
-  - action: apt
-    recommends: false
-    description: Install device-specific packages
-    packages:
-      - {{ $device }}-support
-      - megapixels
-      - powersupply
-
   - action: run
     description: Create bootloader
     chroot: true
     script: scripts/bootloader-sunxi.sh {{ $device }}
 
-    # TODO: Currently need to manually modify boot.cmd to boot of partition 3.
   - action: raw
     description: Install bootloader
     origin: filesystem

@@ -13,6 +13,8 @@ actions:
     description: Install telephony packages
     packages:
       - mobian-phosh-phone
+      - firefox-esr-mobile-config
+      - flashlight
 {{ end }}
 
   - action: apt
@@ -20,7 +22,8 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
+      - megapixels
+      - powersupply
 
   - action: pack
     file: rootfs-{{ $device }}.tar.gz
-
