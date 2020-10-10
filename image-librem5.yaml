@@ -20,12 +20,12 @@ actions:
     partitions:
       - name: boot
         fs: ext2
-        start: 5MB
-        end: 256MB
+        start: 8MiB
+        end: 256MiB
         flags: [ boot ]
       - name: rootfs
         fs: ext4
-        start: 256MB
+        start: 256MiB
         end: 100%
 
   - action: filesystem-deploy
