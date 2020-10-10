@@ -1,0 +1,34 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $device := or .device "librem5" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $architecture }}.tar.gz
+
+{{ if eq $device "librem5" }}
+  - action: apt
+    recommends: false
+    description: Install telephony packages
+    packages:
+      - mobian-phosh-phone
+      - firefox-esr-mobile-config
+      - flashlight
+{{ end }}
+
+  - action: apt
+    recommends: false
+    description: Install device-specific packages
+    packages:
+      - {{ $device }}-support
+      - chatty
+      - firefox-esr-mobile-config
+      - gnome-calls
+      - modemmanager
+      - mobile-broadband-provider-info
+      - purple-mm-sms
+      - wys
+
+  - action: pack
+    file: rootfs-{{ $device }}.tar.gz

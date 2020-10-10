@@ -6,19 +6,7 @@ architecture: {{ $architecture }}
 
 actions:
   - action: unpack
-    file: rootfs-{{ $architecture }}.tar.gz
-
-  - action: apt
-    recommends: false
-    description: Install telephony packages
-    packages:
-      - chatty
-      - firefox-esr-mobile-config
-      - gnome-calls
-      - modemmanager
-      - mobile-broadband-provider-info
-      - purple-mm-sms
-      - wys
+    file: rootfs-{{ $device }}.tar.gz
 
   - action: image-partition
     imagename: {{ $image }}
@@ -42,12 +30,6 @@ actions:
 
   - action: filesystem-deploy
     description: Deploy filesystem onto image
-
-  - action: apt
-    recommends: false
-    description: Install device-specific packages
-    packages:
-      - {{ $device }}-support
 
   - action: run
     description: Download bootloader
