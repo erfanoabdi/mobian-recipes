@@ -2,7 +2,6 @@
 {{- $username := or .username "mobian" -}}
 {{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "mobian" -}}
-{{- $image := or .image "rootfs-$device.tar.gz" -}}
 
 architecture: {{ $architecture }}
 
@@ -40,10 +39,6 @@ actions:
     description: setup ondevice installer to start on boot
     chroot: true
     command: systemctl enable calamaresfb.service
-
-  - action: overlay
-    source: {{ $image }}
-    destination: /var/lib/rootfs.tar.gz
 
   - action: pack
     file: installfs-{{ $architecture }}.tar.gz
