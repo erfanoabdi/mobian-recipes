@@ -7,16 +7,6 @@ actions:
   - action: unpack
     file: rootfs-{{ $architecture }}.tar.gz
 
-{{ if eq $device "librem5" }}
-  - action: apt
-    recommends: false
-    description: Install telephony packages
-    packages:
-      - mobian-phosh-phone
-      - firefox-esr-mobile-config
-      - flashlight
-{{ end }}
-
   - action: apt
     recommends: false
     description: Install device-specific packages
