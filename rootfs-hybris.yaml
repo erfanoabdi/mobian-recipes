@@ -61,8 +61,8 @@ actions:
 
   - action: run
     chroot: true
-    description: Enabling SSH
-    command: ssh-keygen -A && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+    description: Generate SSH keys
+    command: ssh-keygen -A
 
   - action: recipe
     description: Runing device build recipe
