@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
+{{- $family := or .family "sunxi" }}
 {{- $device := or .device "pinephone" }}
-{{- $rootfs := or .rootfs "rootfs-$device.tar.gz" -}}
 {{- $image := or .image "mobian-installer-$device.img" -}}
 
 architecture: {{ $architecture }}
@@ -10,7 +10,7 @@ actions:
     file: installfs-{{ $architecture }}.tar.gz
 
   - action: overlay
-    source: {{ $rootfs }}
+    source: rootfs-{{ $device }}.tar.gz
     destination: /var/lib/rootfs.tar.gz
 
   - action: image-partition
@@ -43,16 +43,14 @@ actions:
       - {{ $device }}-support
 
   - action: run
-    description: Create bootloader
+    description: Prepare bootloader
     chroot: true
-    script: scripts/bootloader-sunxi.sh {{ $device }}
+    script: devices/{{ $family }}/bootloader.sh {{ $device }}
 
-    # TODO: Currently need to manually modify boot.cmd to boot of partition 3.
-  - action: raw
-    description: Install bootloader
-    origin: filesystem
-    source: boot/u-boot-sunxi-with-spl.bin
-    offset: 8192
+  - action: recipe
+    recipe: devices/{{ $family }}/bootloader.yaml
+    variables:
+      device: {{ $device }}
 
   - action: run
     description: Cleanup filesystem
