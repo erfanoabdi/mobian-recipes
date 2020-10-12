@@ -3,13 +3,15 @@
 export PATH=/sbin:/usr/sbin:$PATH
 DEBOS_CMD=debos
 ARGS=
-arch=
+
 device="pinephone"
+image="image"
+partitiontable="mbr"
+filesystem="ext4"
+arch=
 do_compress=
 family=
 image_only=
-image_recipe=
-image="image"
 installer=
 memory=
 password=
@@ -18,7 +20,7 @@ username=
 no_blockmap=
 ssh=
 
-while getopts "dizobsf:h:m:p:t:u:" opt
+while getopts "dizobsf:h:m:p:t:u:F:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
@@ -33,13 +35,14 @@ do
     p ) password="$OPTARG" ;;
     t ) device="$OPTARG" ;;
     u ) username="$OPTARG" ;;
+    F ) filesystem="$OPTARG" ;;
   esac
 done
 
-IMG_FILE="mobian-$device-`date +%Y%m%d`.img"
+image_file="mobian-$device-`date +%Y%m%d`.img"
 if [ "$installer" ]; then
   image="installer"
-  IMG_FILE="mobian-installer-$device-`date +%Y%m%d`.img"
+  image_file="mobian-installer-$device-`date +%Y%m%d`.img"
 fi
 
 case "$device" in
@@ -58,17 +61,18 @@ case "$device" in
   "amd64" )
     arch="amd64"
     family="amd64"
+    device="efi"
+    partitiontable="gpt"
     ;;
   "amd64-legacy" )
     arch="amd64"
-    family="amd64-legacy"
+    family="amd64"
+    device="pc"
     ;;
   * )
     usage
     ;;
 esac
-image_recipe="$image-$family"
-ROOT_IMG_FILE="rootfs-$arch.tar.gz"
 
 if [ "$use_docker" ]; then
   DEBOS_CMD=docker
@@ -100,25 +104,28 @@ if [ "$memory" ]; then
   ARGS="$ARGS --memory $memory"
 fi
 
-ARGS="$ARGS -t architecture:$arch -t device:$device --scratchsize=8G"
+ARGS="$ARGS -t architecture:$arch -t family:$family -t device:$device \
+            -t partitiontable:$partitiontable -t filesystem:$filesystem \
+            -t image:$image_file --scratchsize=8G"
 
 if [ ! "$image_only" ]; then
   $DEBOS_CMD $ARGS rootfs.yaml || exit 1
-  if [ -f "rootfs-$family.yaml" ]; then
-    $DEBOS_CMD $ARGS "rootfs-$family.yaml" || exit 1
-  fi
   if [ "$installer" ]; then
     $DEBOS_CMD $ARGS installfs.yaml || exit 1
   fi
 fi
 
-$DEBOS_CMD $ARGS -t "image:$IMG_FILE" "$image_recipe.yaml"
+if [ ! "$image_only" -o ! -f "rootfs-$device.tar.gz" ]; then
+  $DEBOS_CMD $ARGS "rootfs-device.yaml" || exit 1
+fi
+
+$DEBOS_CMD $ARGS "$image.yaml"
 
 if [ ! "$no_blockmap" ]; then
-  bmaptool create "$IMG_FILE" > "$IMG_FILE.bmap"
+  bmaptool create "$image_file" > "$image_file.bmap"
 fi
 
 if [ "$do_compress" ]; then
-  echo "Compressing $IMG_FILE..."
-  gzip --keep --force $IMG_FILE
+  echo "Compressing $image_file..."
+  gzip --keep --force $image_file
 fi

@@ -1,0 +1,11 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $device := or .device "pinephone" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: raw
+    description: Install bootloader
+    origin: filesystem
+    source: boot/u-boot-sunxi-with-spl.bin
+    offset: 8192

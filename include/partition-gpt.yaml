@@ -1,0 +1,32 @@
+{{- $architecture := or .architecture "amd64" -}}
+{{- $filesystem := or .filesystem "ext4" }}
+{{- $image := or .image "mobian-$device.img" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: image-partition
+    imagename: {{ $image }}
+    imagesize: 3.8GB
+    partitiontype: gpt
+    mountpoints:
+      - mountpoint: /
+        partition: rootfs
+      - mountpoint: /boot
+        partition: boot
+      - mountpoint: /boot/efi
+        partition: esp
+    partitions:
+      - name: esp
+        fs: fat32
+        start: 0%
+        end: 256MiB
+        flags: [ esp, boot ]
+      - name: boot
+        fs: {{ $filesystem }}
+        start: 256MiB
+        end: 512MiB
+      - name: rootfs
+        fs: {{ $filesystem }}
+        start: 512MiB
+        end: 100%

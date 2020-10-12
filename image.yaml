@@ -1,0 +1,36 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $family := or .family "sunxi" }}
+{{- $device := or .device "pinephone" }}
+{{- $partitiontable := or .partitiontable "mbr" }}
+{{- $filesystem := or .filesystem "ext4" }}
+{{- $image := or .image "mobian-$device.img" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $device }}.tar.gz
+
+  - action: recipe
+    recipe: include/partition-{{ $partitiontable }}.yaml
+    variables:
+      filesystem: {{ $filesystem }}
+      image: {{ $image }}
+
+  - action: filesystem-deploy
+    description: Deploy filesystem onto image
+
+  - action: run
+    description: Prepare bootloader
+    chroot: true
+    script: devices/{{ $family }}/bootloader.sh {{ $device }}
+
+  - action: recipe
+    recipe: devices/{{ $family }}/bootloader.yaml
+    variables:
+      device: {{ $device }}
+
+  - action: run
+    description: Cleanup filesystem
+    chroot: true
+    script: scripts/cleanup.sh
