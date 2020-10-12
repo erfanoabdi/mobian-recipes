@@ -4,14 +4,8 @@
 architecture: {{ $architecture }}
 
 actions:
-  - action: download
-    url: https://arm01.puri.sm/job/u-boot_builds/job/uboot_librem5_build/lastSuccessfulBuild/artifact/output/uboot-librem5/librem5-boot.img
-    name: bootloader
-    filename: librem5-boot.img
-    unpack: false
-
   - action: raw
     description: Install bootloader
-    origin: bootloader
-    source: librem5-boot.img
+    origin: filesystem
+    source: boot/librem5-boot.img
     offset: 2048
