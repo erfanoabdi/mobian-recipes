@@ -1,0 +1,46 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $ssh := or .ssh "" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: apt
+    recommends: false
+    description: Install mobian-specific packages
+    packages:
+      - mobian-phosh
+      - mobian-phosh-games
+      # Additional software we don't want metapackages to depend on
+      - eog
+      - epiphany-browser
+      - evince
+      - file-roller
+      - firefox-esr
+      - fractal
+      - geary
+      - gedit
+      - gnome-authenticator
+      - gnome-calculator
+      - gnome-calendar
+      - gnome-contacts
+      - gnome-clocks
+      - gnome-maps
+      - gnome-software
+      - gnome-software-plugin-flatpak
+      - gnome-sound-recorder
+      - gnome-todo
+      - gnome-usage
+      - gnome-weather
+      - kgx
+      - lollypop
+      - nemo
+      - nemo-fileroller
+      - telegram-desktop
+      - telegram-purple
+      - webext-ublock-origin
+      - youtube-dl
+{{ if $ssh }}
+      - openssh-server
+{{ end }}
+      - cryptsetup
+      - cryptsetup-initramfs

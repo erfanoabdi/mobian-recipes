@@ -8,6 +8,7 @@ device="pinephone"
 image="image"
 partitiontable="mbr"
 filesystem="ext4"
+environment="phosh"
 arch=
 do_compress=
 family=
@@ -20,10 +21,11 @@ username=
 no_blockmap=
 ssh=
 
-while getopts "dizobsf:h:m:p:t:u:F:" opt
+while getopts "dizobse:f:h:m:p:t:u:F:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
+    e ) environment="$OPTARG" ;;
     i ) image_only=1 ;;
     z ) do_compress=1 ;;
     b ) no_blockmap=1 ;;
@@ -39,10 +41,10 @@ do
   esac
 done
 
-image_file="mobian-$device-`date +%Y%m%d`.img"
+image_file="mobian-$device-$environment-`date +%Y%m%d`.img"
 if [ "$installer" ]; then
   image="installer"
-  image_file="mobian-installer-$device-`date +%Y%m%d`.img"
+  image_file="mobian-installer-$device-$environment-`date +%Y%m%d`.img"
 fi
 
 case "$device" in
@@ -92,6 +94,10 @@ if [ "$ssh" ]; then
   ARGS="$ARGS -t ssh:$ssh"
 fi
 
+if [ "$environment" ]; then
+  ARGS="$ARGS -t environment:$environment"
+fi
+
 if [ "$http_proxy" ]; then
   ARGS="$ARGS -e http_proxy:$http_proxy"
 fi
@@ -106,7 +112,7 @@ fi
 
 ARGS="$ARGS -t architecture:$arch -t family:$family -t device:$device \
             -t partitiontable:$partitiontable -t filesystem:$filesystem \
-            -t image:$image_file --scratchsize=8G"
+            -t environment:$environment -t image:$image_file --scratchsize=8G"
 
 if [ ! "$image_only" ]; then
   $DEBOS_CMD $ARGS rootfs.yaml || exit 1

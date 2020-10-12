@@ -2,6 +2,7 @@
 {{- $username := or .username "mobian" -}}
 {{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "mobian" -}}
+{{- $environment := or .environment "phosh" -}}
 {{- $ssh := or .ssh "" -}}
 
 architecture: {{ $architecture }}
@@ -25,46 +26,10 @@ actions:
     chroot: true
     script: scripts/setup-repo.sh
 
-  - action: apt
-    recommends: false
-    description: Install mobian-specific packages
-    packages:
-      - mobian-phosh
-      - mobian-phosh-games
-      # Additional software we don't want metapackages to depend on
-      - eog
-      - epiphany-browser
-      - evince
-      - file-roller
-      - firefox-esr
-      - fractal
-      - geary
-      - gedit
-      - gnome-authenticator
-      - gnome-calculator
-      - gnome-calendar
-      - gnome-contacts
-      - gnome-clocks
-      - gnome-maps
-      - gnome-software
-      - gnome-software-plugin-flatpak
-      - gnome-sound-recorder
-      - gnome-todo
-      - gnome-usage
-      - gnome-weather
-      - kgx
-      - lollypop
-      - nemo
-      - nemo-fileroller
-      - telegram-desktop
-      - telegram-purple
-      - webext-ublock-origin
-      - youtube-dl
-{{ if $ssh }}
-      - openssh-server
-{{ end }}
-      - cryptsetup
-      - cryptsetup-initramfs
+  - action: recipe
+    recipe: include/packages-{{ $environment }}.yaml
+    variables:
+      ssh: {{ $ssh }}
 
   - action: run
     description: Set up default user
