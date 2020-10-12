@@ -4,9 +4,6 @@
 architecture: {{ $architecture }}
 
 actions:
-  - action: unpack
-    file: rootfs-{{ $architecture }}.tar.gz
-
   - action: apt
     recommends: false
     description: Install device-specific packages
@@ -19,6 +16,3 @@ actions:
       - mobile-broadband-provider-info
       - purple-mm-sms
       - wys
-
-  - action: pack
-    file: rootfs-{{ $device }}.tar.gz

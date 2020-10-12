@@ -1,0 +1,17 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $family := or .family "sunxi" }}
+{{- $device := or .device "pinephone" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: rootfs-{{ $architecture }}.tar.gz
+
+  - action: recipe
+    recipe: devices/{{ $family }}/packages.yaml
+    variables:
+      - device: {{ $device }}
+
+  - action: pack
+    file: rootfs-{{ $device }}.tar.gz
