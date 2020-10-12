@@ -59,4 +59,4 @@ actions:
     script: scripts/setup-system.sh {{ $hostname }}
 
   - action: pack
-    file: rootfs-{{ $architecture }}.tar.gz
+    file: rootfs-{{ $architecture }}-{{ $environment }}.tar.gz

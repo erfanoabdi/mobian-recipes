@@ -41,12 +41,6 @@ do
   esac
 done
 
-image_file="mobian-$device-$environment-`date +%Y%m%d`.img"
-if [ "$installer" ]; then
-  image="installer"
-  image_file="mobian-installer-$device-$environment-`date +%Y%m%d`.img"
-fi
-
 case "$device" in
   "pinephone" )
     arch="arm64"
@@ -75,6 +69,12 @@ case "$device" in
     usage
     ;;
 esac
+
+image_file="mobian-$device-$environment-`date +%Y%m%d`.img"
+if [ "$installer" ]; then
+  image="installer"
+  image_file="mobian-installer-$device-$environment-`date +%Y%m%d`.img"
+fi
 
 if [ "$use_docker" ]; then
   DEBOS_CMD=docker
@@ -121,7 +121,7 @@ if [ ! "$image_only" ]; then
   fi
 fi
 
-if [ ! "$image_only" -o ! -f "rootfs-$device.tar.gz" ]; then
+if [ ! "$image_only" -o ! -f "rootfs-$device-$environment.tar.gz" ]; then
   $DEBOS_CMD $ARGS "rootfs-device.yaml" || exit 1
 fi
 

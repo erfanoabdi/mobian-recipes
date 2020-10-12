@@ -1,7 +1,8 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $family := or .family "sunxi" }}
 {{- $device := or .device "pinephone" }}
-{{- $image := or .image "mobian-installer-$device.img" -}}
+{{- $environment := or .environment "phosh" -}}
+{{- $image := or .image "mobian-installer-$device-$environment.img" -}}
 
 architecture: {{ $architecture }}
 
@@ -10,7 +11,7 @@ actions:
     file: installfs-{{ $architecture }}.tar.gz
 
   - action: overlay
-    source: rootfs-{{ $device }}.tar.gz
+    source: rootfs-{{ $device }}-{{ $environment }}.tar.gz
     destination: /var/lib/rootfs.tar.gz
 
   - action: image-partition

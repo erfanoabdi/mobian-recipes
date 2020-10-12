@@ -3,13 +3,14 @@
 {{- $device := or .device "pinephone" }}
 {{- $partitiontable := or .partitiontable "mbr" }}
 {{- $filesystem := or .filesystem "ext4" }}
-{{- $image := or .image "mobian-$device.img" -}}
+{{- $environment := or .environment "phosh" -}}
+{{- $image := or .image "mobian-$device-$environment.img" -}}
 
 architecture: {{ $architecture }}
 
 actions:
   - action: unpack
-    file: rootfs-{{ $device }}.tar.gz
+    file: rootfs-{{ $device }}-{{ $environment }}.tar.gz
 
   - action: recipe
     recipe: include/partition-{{ $partitiontable }}.yaml
