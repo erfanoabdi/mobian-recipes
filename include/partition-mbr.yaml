@@ -16,7 +16,7 @@ actions:
         partition: boot
     partitions:
       - name: boot
-        fs: {{ $filesystem }}
+        fs: ext4
         start: 8MiB
         end: 256MiB
         flags: [ boot ]

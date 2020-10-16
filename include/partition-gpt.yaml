@@ -23,7 +23,7 @@ actions:
         end: 256MiB
         flags: [ esp, boot ]
       - name: boot
-        fs: {{ $filesystem }}
+        fs: ext4
         start: 256MiB
         end: 512MiB
       - name: rootfs
