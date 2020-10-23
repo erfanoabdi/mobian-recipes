@@ -8,7 +8,12 @@ actions:
     recommends: false
     description: Install mobian-specific packages
     packages:
-      - mobian-phosh
+      - mobian-phosh-base
+      - mobian-multimedia
+      - gthd
+      - purple-xmpp-carbons
+      - purple-xmpp-http-upload
+      - qtwayland5
       - phosh-games
       # Additional software we don't want metapackages to depend on
       - eog

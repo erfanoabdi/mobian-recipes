@@ -9,6 +9,7 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
+      - fwupd
 {{ if eq $device "pinephone" }}
       - mobian-phosh-phone
       - firefox-esr-mobile-config

@@ -10,4 +10,5 @@ actions:
     packages:
       - {{ $device }}-support
       - firefox-esr-mobile-config
+      - fwupd
       - mobile-broadband-provider-info
