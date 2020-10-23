@@ -43,6 +43,11 @@ actions:
       - megapixels
       - powersupply
       - libhybris-utils
+      - sensorfw-qt5
+      - libsensorfw-qt5-plugins
+      - libsensorfw-qt5-hybris
+      - libsensorfw-qt5-configs
+      - hadess-sensorfw-proxy
 
   - action: run
     chroot: true
