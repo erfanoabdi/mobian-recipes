@@ -2,4 +2,4 @@
 # even if they're older.
 Package: *
 Pin: release o=hybris-mobian
-Pin-Priority: 900
+Pin-Priority: 1000
