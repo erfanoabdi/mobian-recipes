@@ -84,4 +84,4 @@ actions:
   - action: run # tmp
     chroot: true
     description: Enabling some services
-    command: systemctl enable usb-tethering && systemctl enable bluebinder && systemctl enable hadess-sensorfw-proxy
+    command: systemctl enable usb-tethering && systemctl enable bluebinder && systemctl enable hadess-sensorfw-proxy && systemctl enable sensorfwd
