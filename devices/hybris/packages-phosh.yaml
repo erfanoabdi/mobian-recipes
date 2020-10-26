@@ -75,3 +75,8 @@ actions:
     chroot: true
     description: Enabling android lxc
     command: systemctl enable lxc@android
+
+  - action: run # tmp
+    chroot: true
+    description: Enabling some services
+    command: systemctl enable usb-tethering && systemctl enable bluebinder && systemctl enable hadess-sensorfw-proxy
