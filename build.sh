@@ -66,7 +66,8 @@ case "$device" in
     device="pc"
     ;;
   * )
-    usage
+    echo "Unsupported device '$device'"
+    exit 1
     ;;
 esac
 
