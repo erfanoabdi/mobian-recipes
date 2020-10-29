@@ -1,6 +1,6 @@
 Architectures: amd64 arm64 armhf
 Components: main
 Suites: bullseye
-Uris: http://hybris-mobian-phosh.repo.hybris-mobian.org/bullseye-hwc-monitor/
+Uris: http://hybris-mobian-phosh.repo.hybris-mobian.org/bullseye-upgrade-0-5-0/
 Types: deb
 Signed-By: /var/lib/extrepo/keys/hybris-mobian.asc

@@ -15,11 +15,6 @@ actions:
     destination: /
 
   - action: overlay # tmp
-    source: overlays/phoc-staging
-    description: Adding hybris-mobian phoc-staging repo
-    destination: /
-
-  - action: overlay # tmp
     source: overlays/phosh-staging
     description: Adding hybris-mobian phosh-staging repo
     destination: /
