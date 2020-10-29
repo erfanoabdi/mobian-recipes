@@ -34,8 +34,20 @@ actions:
     description: install packages
     packages:
       - hybris-mobian-minimal
-      - adaptation-hybris-api28
-      - adaptation-hybris-api28-phone-dual-sim
+      - udev
+      - lxc-android
+      - libhybris
+      - pulseaudio-modules-droid
+      - pulseaudio-config-droid
+      - phosh-config-hwcomposer
+      - udev-config-hybris
+      - ofono
+      - phosh-config-ofono
+      - hybris-mobian-quirks-calls-config-ofono
+      - ofono-ril-binder-plugin
+      - ofono-config-ril-binder
+      - ofono-config-ril-binder-dual-sim
+      - bluebinder
       - hybris-usb
       - hybris-mobian-phone
       - mobian-phosh-phone
