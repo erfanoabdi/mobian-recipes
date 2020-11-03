@@ -21,10 +21,11 @@ username=
 no_blockmap=
 ssh=
 
-while getopts "dizobse:f:h:m:p:t:u:F:" opt
+while getopts "dDizobse:f:h:m:p:t:u:F:" opt
 do
   case "$opt" in
     d ) use_docker=1 ;;
+    D ) debug=1 ;;
     e ) environment="$OPTARG" ;;
     i ) image_only=1 ;;
     z ) do_compress=1 ;;
@@ -83,6 +84,10 @@ if [ "$use_docker" ]; then
             --mount type=bind,source=$(pwd),destination=/recipes \
             --security-opt label=disable godebos/debos"
 fi
+if [ "$debug" ]; then
+  ARGS="$ARGS --debug-shell"
+fi
+
 if [ "$username" ]; then
   ARGS="$ARGS -t username:$username"
 fi
