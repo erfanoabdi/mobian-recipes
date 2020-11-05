@@ -9,7 +9,7 @@ actions:
     description: Install mobian-specific packages
     packages:
       - mobian-phosh
-      - mobian-phosh-games
+      - phosh-games
       # Additional software we don't want metapackages to depend on
       - eog
       - epiphany-browser
@@ -22,8 +22,6 @@ actions:
       - gnome-authenticator
       - gnome-calculator
       - gnome-calendar
-      - gnome-contacts
-      - gnome-clocks
       - gnome-maps
       - gnome-software
       - gnome-software-plugin-flatpak
