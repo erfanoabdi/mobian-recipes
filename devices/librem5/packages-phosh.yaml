@@ -9,10 +9,5 @@ actions:
     description: Install device-specific packages
     packages:
       - {{ $device }}-support
-      - chatty
       - firefox-esr-mobile-config
-      - gnome-calls
-      - modemmanager
       - mobile-broadband-provider-info
-      - purple-mm-sms
-      - wys
