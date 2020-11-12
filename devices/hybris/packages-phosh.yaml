@@ -59,7 +59,6 @@ actions:
       - libsensorfw-qt5-hybris
       - libsensorfw-qt5-configs
       - hadess-sensorfw-proxy
-      - pulseaudio-module-droid
 
   - action: run
     chroot: true
