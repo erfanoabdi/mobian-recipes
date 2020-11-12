@@ -50,7 +50,6 @@ actions:
       - bluebinder
       - hybris-usb
       - hybris-mobian-phone
-      - mobian-phosh-phone
       - firefox-esr-mobile-config
       - megapixels
       - powersupply
